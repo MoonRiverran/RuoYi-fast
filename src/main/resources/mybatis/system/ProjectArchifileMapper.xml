@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.archifile.mapper.ProjectArchifileMapper">
+    
+    <resultMap type="ProjectArchifile" id="ProjectArchifileResult">
+        <result property="fileId"    column="file_id"    />
+        <result property="archiveId"    column="archive_id"    />
+        <result property="fileName"    column="file_name"    />
+        <result property="filePath"    column="file_path"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectArchifileVo">
+        select file_id, archive_id, file_name, file_path, create_by, create_time, update_by, update_time from project_archifile
+    </sql>
+
+    <select id="selectProjectArchifileList" parameterType="ProjectArchifile" resultMap="ProjectArchifileResult">
+        <include refid="selectProjectArchifileVo"/>
+        <where>  
+            <if test="archiveId != null "> and archive_id = #{archiveId}</if>
+            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectArchifileByFileId" parameterType="Long" resultMap="ProjectArchifileResult">
+        <include refid="selectProjectArchifileVo"/>
+        where file_id = #{fileId}
+    </select>
+        
+    <insert id="insertProjectArchifile" parameterType="ProjectArchifile" useGeneratedKeys="true" keyProperty="fileId">
+        insert into project_archifile
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="archiveId != null">archive_id,</if>
+            <if test="fileName != null">file_name,</if>
+            <if test="filePath != null">file_path,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="archiveId != null">#{archiveId},</if>
+            <if test="fileName != null">#{fileName},</if>
+            <if test="filePath != null">#{filePath},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectArchifile" parameterType="ProjectArchifile">
+        update project_archifile
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="archiveId != null">archive_id = #{archiveId},</if>
+            <if test="fileName != null">file_name = #{fileName},</if>
+            <if test="filePath != null">file_path = #{filePath},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where file_id = #{fileId}
+    </update>
+
+    <delete id="deleteProjectArchifileByFileId" parameterType="Long">
+        delete from project_archifile where file_id = #{fileId}
+    </delete>
+
+    <delete id="deleteProjectArchifileByFileIds" parameterType="String">
+        delete from project_archifile where file_id in 
+        <foreach item="fileId" collection="array" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
+    </delete>
+
+</mapper>

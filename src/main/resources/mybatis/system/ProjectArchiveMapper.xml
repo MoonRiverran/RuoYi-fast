@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper">
+    
+    <resultMap type="ProjectArchive" id="ProjectArchiveResult">
+        <result property="archiveId"    column="archive_id"    />
+        <result property="archiveName"    column="archive_name"    />
+        <result property="projectId"    column="project_id"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectArchiveVo">
+        select archive_id, archive_name, project_id, create_by, create_time, update_by, update_time from project_archive
+    </sql>
+
+    <select id="selectProjectArchiveList" parameterType="ProjectArchive" resultMap="ProjectArchiveResult">
+        <include refid="selectProjectArchiveVo"/>
+        <where>  
+            <if test="archiveName != null  and archiveName != ''"> and archive_name like concat('%', #{archiveName}, '%')</if>
+            <if test="projectId != null "> and project_id = #{projectId}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectArchiveByArchiveId" parameterType="Long" resultMap="ProjectArchiveResult">
+        <include refid="selectProjectArchiveVo"/>
+        where archive_id = #{archiveId}
+    </select>
+        
+    <insert id="insertProjectArchive" parameterType="ProjectArchive" useGeneratedKeys="true" keyProperty="archiveId">
+        insert into project_archive
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="archiveName != null and archiveName != ''">archive_name,</if>
+            <if test="projectId != null">project_id,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="archiveName != null and archiveName != ''">#{archiveName},</if>
+            <if test="projectId != null">#{projectId},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectArchive" parameterType="ProjectArchive">
+        update project_archive
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="archiveName != null and archiveName != ''">archive_name = #{archiveName},</if>
+            <if test="projectId != null">project_id = #{projectId},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where archive_id = #{archiveId}
+    </update>
+
+    <delete id="deleteProjectArchiveByArchiveId" parameterType="Long">
+        delete from project_archive where archive_id = #{archiveId}
+    </delete>
+
+    <delete id="deleteProjectArchiveByArchiveIds" parameterType="String">
+        delete from project_archive where archive_id in 
+        <foreach item="archiveId" collection="array" open="(" separator="," close=")">
+            #{archiveId}
+        </foreach>
+    </delete>
+
+</mapper>

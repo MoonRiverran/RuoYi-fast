@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.distri.mapper.ProjectDistriMapper">
+    
+    <resultMap type="ProjectDistri" id="ProjectDistriResult">
+        <result property="projectId"    column="project_id"    />
+        <result property="projectNumber"    column="project_number"    />
+        <result property="projectLeader"    column="project_leader"    />
+        <result property="leaderLv"    column="leader_lv"    />
+        <result property="customName"    column="custom_name"    />
+        <result property="environComment"    column="environ_comment"    />
+        <result property="columnType"    column="column_type"    />
+        <result property="projectType"    column="project_type"    />
+        <result property="compleNode"    column="comple_node"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectProjectDistriVo">
+        select project_id, project_number, project_leader, leader_lv, custom_name, environ_comment, column_type, project_type, comple_node, create_by, create_time, update_by, update_time from project_distri
+    </sql>
+
+    <select id="selectProjectDistriList" parameterType="ProjectDistri" resultMap="ProjectDistriResult">
+        <include refid="selectProjectDistriVo"/>
+        <where>  
+            <if test="projectNumber != null  and projectNumber != ''"> and project_number = #{projectNumber}</if>
+            <if test="projectLeader != null  and projectLeader != ''"> and project_leader like concat('%', #{projectLeader}, '%')</if>
+            <if test="leaderLv != null  and leaderLv != ''"> and leader_lv = #{leaderLv}</if>
+            <if test="customName != null  and customName != ''"> and custom_name like concat('%', #{customName}, '%')</if>
+            <if test="environComment != null  and environComment != ''"> and environ_comment like concat('%', #{environComment}, '%')</if>
+            <if test="columnType != null  and columnType != ''"> and column_type = #{columnType}</if>
+            <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
+            <if test="compleNode != null "> and comple_node = #{compleNode}</if>
+        </where>
+    </select>
+    
+    <select id="selectProjectDistriByProjectId" parameterType="Long" resultMap="ProjectDistriResult">
+        <include refid="selectProjectDistriVo"/>
+        where project_id = #{projectId}
+    </select>
+        
+    <insert id="insertProjectDistri" parameterType="ProjectDistri" useGeneratedKeys="true" keyProperty="projectId">
+        insert into project_distri
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="projectNumber != null">project_number,</if>
+            <if test="projectLeader != null">project_leader,</if>
+            <if test="leaderLv != null">leader_lv,</if>
+            <if test="customName != null">custom_name,</if>
+            <if test="environComment != null">environ_comment,</if>
+            <if test="columnType != null">column_type,</if>
+            <if test="projectType != null">project_type,</if>
+            <if test="compleNode != null">comple_node,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="projectNumber != null">#{projectNumber},</if>
+            <if test="projectLeader != null">#{projectLeader},</if>
+            <if test="leaderLv != null">#{leaderLv},</if>
+            <if test="customName != null">#{customName},</if>
+            <if test="environComment != null">#{environComment},</if>
+            <if test="columnType != null">#{columnType},</if>
+            <if test="projectType != null">#{projectType},</if>
+            <if test="compleNode != null">#{compleNode},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateProjectDistri" parameterType="ProjectDistri">
+        update project_distri
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="projectNumber != null">project_number = #{projectNumber},</if>
+            <if test="projectLeader != null">project_leader = #{projectLeader},</if>
+            <if test="leaderLv != null">leader_lv = #{leaderLv},</if>
+            <if test="customName != null">custom_name = #{customName},</if>
+            <if test="environComment != null">environ_comment = #{environComment},</if>
+            <if test="columnType != null">column_type = #{columnType},</if>
+            <if test="projectType != null">project_type = #{projectType},</if>
+            <if test="compleNode != null">comple_node = #{compleNode},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where project_id = #{projectId}
+    </update>
+
+    <delete id="deleteProjectDistriByProjectId" parameterType="Long">
+        delete from project_distri where project_id = #{projectId}
+    </delete>
+
+    <delete id="deleteProjectDistriByProjectIds" parameterType="String">
+        delete from project_distri where project_id in 
+        <foreach item="projectId" collection="array" open="(" separator="," close=")">
+            #{projectId}
+        </foreach>
+    </delete>
+
+</mapper>
