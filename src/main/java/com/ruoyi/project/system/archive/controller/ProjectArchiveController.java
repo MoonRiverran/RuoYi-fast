@@ -5,11 +5,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.project.system.archive.domain.ProjectArchive;
@@ -47,9 +43,10 @@ public class ProjectArchiveController extends BaseController
     @RequiresPermissions("system:archive:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(ProjectArchive projectArchive)
+    public TableDataInfo list(@RequestBody ProjectArchive projectArchive)
     {
         startPage();
+        projectArchive.setArchiveName("123");
         List<ProjectArchive> list = projectArchiveService.selectProjectArchiveList(projectArchive);
         return getDataTable(list);
     }
