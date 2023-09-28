@@ -25,6 +25,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectId != null "> and project_id = #{projectId}</if>
         </where>
     </select>
+
+    <select id="selectProjectArchiveListByPN" parameterType="Long" resultMap="ProjectArchiveResult">
+        <include refid="selectProjectArchiveVo"/>
+        <where>
+            <if test="projectId != null ">project_id = #{projectId}</if>
+        </where>
+    </select>
     
     <select id="selectProjectArchiveByArchiveId" parameterType="Long" resultMap="ProjectArchiveResult">
         <include refid="selectProjectArchiveVo"/>

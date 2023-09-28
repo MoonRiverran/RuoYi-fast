@@ -58,4 +58,6 @@ public interface ProjectArchiveMapper
      * @return 结果
      */
     public int deleteProjectArchiveByArchiveIds(String[] archiveIds);
+
+    public List<ProjectArchive> selectProjectArchiveListByPN(Long projectNumber);
 }

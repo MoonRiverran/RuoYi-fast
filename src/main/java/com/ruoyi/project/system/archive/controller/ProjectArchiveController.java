@@ -43,11 +43,23 @@ public class ProjectArchiveController extends BaseController
     @RequiresPermissions("system:archive:list")
     @PostMapping("/list")
     @ResponseBody
-    public TableDataInfo list(@RequestBody ProjectArchive projectArchive)
+    public TableDataInfo list(ProjectArchive projectArchive)
     {
         startPage();
-        projectArchive.setArchiveName("123");
         List<ProjectArchive> list = projectArchiveService.selectProjectArchiveList(projectArchive);
+        return getDataTable(list);
+    }
+
+
+    /**
+     * 查询项目归档列表
+     */
+    @PostMapping("/listByPN")
+    @ResponseBody
+    public TableDataInfo listByPN(@RequestParam("projectNumber") Long projectNumber)
+    {
+        startPage();
+        List<ProjectArchive> list = projectArchiveService.selectProjectArchiveListByPN(projectNumber);
         return getDataTable(list);
     }
 

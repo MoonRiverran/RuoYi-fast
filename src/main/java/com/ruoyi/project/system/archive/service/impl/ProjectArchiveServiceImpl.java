@@ -45,6 +45,12 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
         return projectArchiveMapper.selectProjectArchiveList(projectArchive);
     }
 
+    @Override
+    public List<ProjectArchive> selectProjectArchiveListByPN(Long projectNumber)
+    {
+        return projectArchiveMapper.selectProjectArchiveListByPN(projectNumber);
+    }
+
     /**
      * 新增项目归档
      * 

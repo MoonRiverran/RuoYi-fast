@@ -28,6 +28,14 @@ public interface IProjectArchiveService
     public List<ProjectArchive> selectProjectArchiveList(ProjectArchive projectArchive);
 
     /**
+     * 通过projectNumber查询项目归档列表
+     *
+     * @param projectNumber 项目归档
+     * @return 项目归档集合
+     */
+    public List<ProjectArchive> selectProjectArchiveListByPN(Long projectNumber);
+
+    /**
      * 新增项目归档
      * 
      * @param projectArchive 项目归档
