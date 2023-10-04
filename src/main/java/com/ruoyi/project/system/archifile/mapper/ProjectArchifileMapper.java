@@ -58,4 +58,6 @@ public interface ProjectArchifileMapper
      * @return 结果
      */
     public int deleteProjectArchifileByFileIds(String[] fileIds);
+
+    List<ProjectArchifile> selectProjectArchifileListByArid(String archiveId);
 }

@@ -45,6 +45,12 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
         return projectArchifileMapper.selectProjectArchifileList(projectArchifile);
     }
 
+    @Override
+    public List<ProjectArchifile> selectProjectArchifileListByArid(String archiveId)
+    {
+        return projectArchifileMapper.selectProjectArchifileListByArid(archiveId);
+    }
+
     /**
      * 新增文件信息
      * 

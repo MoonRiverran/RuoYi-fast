@@ -58,4 +58,6 @@ public interface IProjectArchifileService
      * @return 结果
      */
     public int deleteProjectArchifileByFileId(Long fileId);
+
+    List<ProjectArchifile> selectProjectArchifileListByArid(String archiveId);
 }

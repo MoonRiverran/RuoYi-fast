@@ -104,6 +104,8 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "项目归档",
+                singleSelect: true,
+                onCheck : zOnClick,
                 columns: [{
                     checkbox: true
                 },
@@ -149,6 +151,28 @@
             };
             $.table.init(options);
             queryArchiFileList();
+
+            function zOnClick(){
+                var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
+                arid = rows[0].archiveId;
+                $.ajax({
+                    type: 'POST',
+                    url: '/system/archifile/listByArid', // 替换成后台方法的URL
+                    // contentType: 'application/json',
+                    // data: JSON.stringify(projectId), // 将请求数据转为JSON字符串
+                    data:{"archiveId": arid},
+                    success: function(response) {
+                        // 处理后台响应
+                        $("#bootstrap-table2").bootstrapTable('load', response);
+                        console.log('后台响应:', response);
+                        // 在这里执行您的逻辑
+                    },
+                    error: function(error) {
+                        // 处理请求错误
+                        console.error('请求错误:', error);
+                    }
+                });
+            }
         });
 
         function queryArchiFileList() {

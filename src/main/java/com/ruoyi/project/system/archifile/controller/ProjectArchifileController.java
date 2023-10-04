@@ -1,15 +1,13 @@
 package com.ruoyi.project.system.archifile.controller;
 
 import java.util.List;
+
+import com.ruoyi.project.system.archive.domain.ProjectArchive;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.framework.aspectj.lang.annotation.Log;
 import com.ruoyi.framework.aspectj.lang.enums.BusinessType;
 import com.ruoyi.project.system.archifile.domain.ProjectArchifile;
@@ -51,6 +49,18 @@ public class ProjectArchifileController extends BaseController
     {
         startPage();
         List<ProjectArchifile> list = projectArchifileService.selectProjectArchifileList(projectArchifile);
+        return getDataTable(list);
+    }
+
+    /**
+     * 查询文件信息列表
+     */
+    @PostMapping("/listByArid")
+    @ResponseBody
+    public TableDataInfo listByPN(@RequestParam("archiveId") String archiveId)
+    {
+        startPage();
+        List<ProjectArchifile> list = projectArchifileService.selectProjectArchifileListByArid(archiveId);
         return getDataTable(list);
     }
 
