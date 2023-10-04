@@ -46,9 +46,9 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
     }
 
     @Override
-    public List<ProjectArchive> selectProjectArchiveListByPN(Long projectNumber)
+    public List<ProjectArchive> selectProjectArchiveListByPN(String projectId)
     {
-        return projectArchiveMapper.selectProjectArchiveListByPN(projectNumber);
+        return projectArchiveMapper.selectProjectArchiveListByPN(projectId);
     }
 
     /**

@@ -56,10 +56,10 @@ public class ProjectArchiveController extends BaseController
      */
     @PostMapping("/listByPN")
     @ResponseBody
-    public TableDataInfo listByPN(@RequestParam("projectNumber") Long projectNumber)
+    public TableDataInfo listByPN(@RequestParam("projectId") String projectId)
     {
         startPage();
-        List<ProjectArchive> list = projectArchiveService.selectProjectArchiveListByPN(projectNumber);
+        List<ProjectArchive> list = projectArchiveService.selectProjectArchiveListByPN(projectId);
         return getDataTable(list);
     }
 

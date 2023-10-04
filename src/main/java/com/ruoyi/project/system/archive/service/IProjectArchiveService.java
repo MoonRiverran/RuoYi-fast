@@ -33,7 +33,7 @@ public interface IProjectArchiveService
      * @param projectNumber 项目归档
      * @return 项目归档集合
      */
-    public List<ProjectArchive> selectProjectArchiveListByPN(Long projectNumber);
+    public List<ProjectArchive> selectProjectArchiveListByPN(String projectId);
 
     /**
      * 新增项目归档

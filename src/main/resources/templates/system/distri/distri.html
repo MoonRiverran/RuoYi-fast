@@ -132,6 +132,8 @@
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
             modalName: "项目下发",
+            singleSelect: true,
+            onCheck : zOnClick,
             columns: [{
                 checkbox: true
             },
@@ -192,29 +194,27 @@
         $.table.init(options);
         queryArchiveList();
 
-        //定义每行数据row
-        var replaceVideoRow = "";
-
-        //通过鼠标单击将row放到自定义replaceVideoRow，然后就可以通过replaceVideoRow获取对象相应属
-        //性的数据
-        $('#bootstrap-table1').on('click-row.bs.table', function(e, row, element) {
-            replaceVideoRow = row;
-            pn = replaceVideoRow.projectNumber;
-            if(pn != null && pn != ""){
-                //$.table.search('formId2','bootstrap-table2');
-                callBackendMethod(pn);
-            }
-        });
-
-        //功能js，添加到script标签中即可
-        //通过鼠标单击，加深某行颜色，并remove掉之前被选中行的颜色
-        $("#bootstrap-table1").on('click', 'tr', function() {
-            $("#bootstrap-table1").find("tbody").find("tr").each(function() {
-                $(this).removeClass('color');
+        function zOnClick(){
+            var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
+            pn = rows[0].projectNumber;
+            $.ajax({
+                type: 'POST',
+                url: '/system/archive/listByPN', // 替换成后台方法的URL
+                // contentType: 'application/json',
+                // data: JSON.stringify(projectId), // 将请求数据转为JSON字符串
+                data:{"projectId": pn},
+                success: function(response) {
+                    // 处理后台响应
+                    $("#bootstrap-table2").bootstrapTable('load', response);
+                    console.log('后台响应:', response);
+                    // 在这里执行您的逻辑
+                },
+                error: function(error) {
+                    // 处理请求错误
+                    console.error('请求错误:', error);
+                }
             });
-            $(this).addClass('color');
-        });
-
+        }
     });
 
     function queryArchiveList() {
@@ -276,36 +276,6 @@
             $.table.init(options);
     }
 
-    function callBackendMethod(pn) {
-        // 构造请求参数（如果需要）
-        var projectArchive = {
-            projectNumber:"pn"
-        };
-
-        // 发送HTTP POST请求到后台接口
-        $.ajax({
-            type: 'POST',
-            url: '/system/archive/list', // 替换成后台方法的URL
-            contentType: 'application/json',
-            data: JSON.stringify(projectArchive), // 将请求数据转为JSON字符串
-            success: function(response) {
-                // 处理后台响应
-                console.log('后台响应:', response);
-                // 在这里执行您的逻辑
-            },
-            error: function(error) {
-                // 处理请求错误
-                console.error('请求错误:', error);
-            }
-        });
-    }
-
 </script>
-<style>
-    .color{
-        background-color: gray;
-        color: white;
-    }
-</style>
 </body>
 </html>
