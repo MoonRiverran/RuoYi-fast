@@ -9,6 +9,8 @@ import com.ruoyi.project.system.archive.domain.ProjectArchive;
 import com.ruoyi.project.system.archive.service.IProjectArchiveService;
 import com.ruoyi.common.utils.text.Convert;
 
+import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
+
 /**
  * 项目归档Service业务层处理
  * 
@@ -60,6 +62,7 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
     @Override
     public int insertProjectArchive(ProjectArchive projectArchive)
     {
+        projectArchive.setCreateBy(getLoginName());
         projectArchive.setCreateTime(DateUtils.getNowDate());
         return projectArchiveMapper.insertProjectArchive(projectArchive);
     }
@@ -73,6 +76,7 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
     @Override
     public int updateProjectArchive(ProjectArchive projectArchive)
     {
+        projectArchive.setUpdateBy(getLoginName());
         projectArchive.setUpdateTime(DateUtils.getNowDate());
         return projectArchiveMapper.updateProjectArchive(projectArchive);
     }

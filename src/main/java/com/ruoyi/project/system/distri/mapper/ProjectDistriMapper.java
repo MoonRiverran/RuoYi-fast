@@ -2,6 +2,7 @@ package com.ruoyi.project.system.distri.mapper;
 
 import java.util.List;
 import com.ruoyi.project.system.distri.domain.ProjectDistri;
+import org.apache.ibatis.annotations.Options;
 
 /**
  * 项目下发Mapper接口
@@ -33,6 +34,7 @@ public interface ProjectDistriMapper
      * @param projectDistri 项目下发
      * @return 结果
      */
+    @Options(useGeneratedKeys = true, keyProperty = "projectId")
     public int insertProjectDistri(ProjectDistri projectDistri);
 
     /**

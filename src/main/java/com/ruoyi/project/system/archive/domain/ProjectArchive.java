@@ -26,6 +26,14 @@ public class ProjectArchive extends BaseEntity
     @Excel(name = "项目id")
     private Long projectId;
 
+    /** 项目号 */
+    @Excel(name = "项目号")
+    private String projectNumber;
+
+    /** 文件夹路径 */
+    @Excel(name = "文件夹路径")
+    private String filePath;
+
     public void setArchiveId(Long archiveId)
     {
         this.archiveId = archiveId;
@@ -54,12 +62,32 @@ public class ProjectArchive extends BaseEntity
         return projectId;
     }
 
+    public void setProjectNumber(String projectNumber)
+    {
+        this.projectNumber = projectNumber;
+    }
+    public String getProjectNumber()
+    {
+        return projectNumber;
+    }
+    public void setFilePath(String filePath)
+    {
+        this.filePath = filePath;
+    }
+
+    public String getFilePath()
+    {
+        return filePath;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("archiveId", getArchiveId())
             .append("archiveName", getArchiveName())
             .append("projectId", getProjectId())
+            .append("projectNumber", getProjectNumber())
+            .append("filePath", getFilePath())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

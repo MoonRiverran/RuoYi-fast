@@ -9,6 +9,8 @@ import com.ruoyi.project.system.filemodel.domain.ProjectFilemodel;
 import com.ruoyi.project.system.filemodel.service.IProjectFilemodelService;
 import com.ruoyi.common.utils.text.Convert;
 
+import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
+
 /**
  * 项目文件模板Service业务层处理
  * 
@@ -54,6 +56,7 @@ public class ProjectFilemodelServiceImpl implements IProjectFilemodelService
     @Override
     public int insertProjectFilemodel(ProjectFilemodel projectFilemodel)
     {
+        projectFilemodel.setCreateBy(getLoginName());
         projectFilemodel.setCreateTime(DateUtils.getNowDate());
         return projectFilemodelMapper.insertProjectFilemodel(projectFilemodel);
     }
@@ -67,6 +70,7 @@ public class ProjectFilemodelServiceImpl implements IProjectFilemodelService
     @Override
     public int updateProjectFilemodel(ProjectFilemodel projectFilemodel)
     {
+        projectFilemodel.setUpdateBy(getLoginName());
         projectFilemodel.setUpdateTime(DateUtils.getNowDate());
         return projectFilemodelMapper.updateProjectFilemodel(projectFilemodel);
     }

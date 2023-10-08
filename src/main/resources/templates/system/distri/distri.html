@@ -87,6 +87,14 @@
                             <input type="text" name="projectId"/>
                         </li>
                         <li>
+                            <label>项目号：</label>
+                            <input type="text" name="projectNumber"/>
+                        </li>
+                        <li>
+                            <label>文件夹路径：</label>
+                            <input type="text" name="filePath"/>
+                        </li>
+                        <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
                         </li>
@@ -196,7 +204,7 @@
 
         function zOnClick(){
             var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
-            pn = rows[0].projectNumber;
+            pn = rows[0].projectId;
             $.ajax({
                 type: 'POST',
                 url: '/system/archive/listByPN', // 替换成后台方法的URL
@@ -245,6 +253,14 @@
                     {
                         field: 'projectId',
                         title: '项目id'
+                    },
+                    {
+                        field: 'projectNumber',
+                        title: '项目号'
+                    },
+                    {
+                        field: 'filePath',
+                        title: '文件夹路径'
                     },
                     {
                         field: 'createBy',
