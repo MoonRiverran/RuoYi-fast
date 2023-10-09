@@ -30,7 +30,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
     @Autowired
     private ProjectArchiveMapper  projectArchiveMapper;
 
-    private String baseDirectory = "D:/ruoyi/project";
+    private String baseDirectory = "D:\\ruoyi\\project";
 
 
     /**
@@ -89,18 +89,23 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
             String[] subfolderNames = {"1-项目启动", "2-图纸下发", "3-厂内调试", "4-随机资料", "5-设计更改", "6-程序归档", "7-程序评审文件"};
             ProjectArchive projectArchive = new ProjectArchive();
             for (String subfolderName : subfolderNames) {
-                String subfolderPath = entityFolderPath + File.separator + subfolderName;
-                File subfolder = new File(subfolderPath);
-                subfolder.mkdirs();
-                projectArchive.setArchiveName(subfolderName);
-                projectArchive.setProjectId(projectid);
-                projectArchive.setProjectNumber(projectNumber);
-                projectArchive.setFilePath(subfolderPath);
-                projectArchive.setCreateBy(getLoginName());
-                projectArchive.setCreateTime(DateUtils.getNowDate());
-                projectArchiveMapper.insertProjectArchive(projectArchive);
-            }
-        }else{
+                String subfolderPath = "";
+                if(subfolderName.equals("2-图纸下发")){
+                    subfolderPath = entityFolderPath + File.separator + subfolderName + File.separator + "第1次下发";
+                }else {
+                    subfolderPath = entityFolderPath + File.separator + subfolderName;
+                }
+                    File subfolder = new File(subfolderPath);
+                    subfolder.mkdirs();
+                    projectArchive.setArchiveName(subfolderName);
+                    projectArchive.setProjectId(projectid);
+                    projectArchive.setProjectNumber(projectNumber);
+                    projectArchive.setFilePath(subfolderPath);
+                    projectArchive.setCreateBy(getLoginName());
+                    projectArchive.setCreateTime(DateUtils.getNowDate());
+                    projectArchiveMapper.insertProjectArchive(projectArchive);
+                }
+        } else{
             return 0;
         }
         return 1;

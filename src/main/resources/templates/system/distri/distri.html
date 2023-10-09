@@ -135,6 +135,21 @@
             modalName: "项目下发",
             singleSelect: true,
             onCheck : zOnClick,
+            // rowStyle: function(row) {
+            //     var date = new Date(row.compleNode);
+            //     var today = new Date();
+            //     var oneDay = 1000 * 60 * 60 * 24;
+            //
+            //     if (Math.abs(date - today) <= oneDay) {
+            //         return {
+            //             css:{"background-color":'rgb(255,255,0)'}
+            //         };
+            //     } else {
+            //         return {
+            //             css:{"background-color":'rgb(255, 51, 0)'}
+            //         };
+            //     }
+            // },
             columns: [{
                 checkbox: true
             },
@@ -183,7 +198,21 @@
                 },
                 {
                     field: 'memo',
-                    title: '备注'
+                    title: '备注',
+                    cellStyle:function(value,row,index){
+                        var date = new Date(row.compleNode);
+                        var today = new Date();
+                        var oneDay = 1000 * 60 * 60 * 24;
+                        if (Math.abs(date - today) <= oneDay) {
+                            return {
+                                css:{"background-color":'rgb(255,255,0)'}
+                            };
+                        } else {
+                            return {
+                                css:{"background-color":'rgb(255, 51, 0)'}
+                            };
+                        }
+                    }
                 },
                 {
                     title: '操作',
@@ -220,6 +249,7 @@
                 }
             });
         }
+
     });
 
     function queryArchiveList() {
