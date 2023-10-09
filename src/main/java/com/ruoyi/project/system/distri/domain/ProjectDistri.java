@@ -53,6 +53,10 @@ public class ProjectDistri extends BaseEntity
     @Excel(name = "项目完成节点", width = 30, dateFormat = "yyyy-MM-dd")
     private Date compleNode;
 
+    /** 备注 */
+    @Excel(name = "备注")
+    private String memo;
+
     public void setProjectId(Long projectId)
     {
         this.projectId = projectId;
@@ -134,7 +138,15 @@ public class ProjectDistri extends BaseEntity
     {
         return compleNode;
     }
+    public void setMemo(String memo)
+    {
+        this.memo = memo;
+    }
 
+    public String getMemo()
+    {
+        return memo;
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -147,6 +159,7 @@ public class ProjectDistri extends BaseEntity
             .append("columnType", getColumnType())
             .append("projectType", getProjectType())
             .append("compleNode", getCompleNode())
+            .append("memo", getMemo())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

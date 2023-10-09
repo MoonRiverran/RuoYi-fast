@@ -18,21 +18,21 @@
                             <label>项目负责人：</label>
                             <input type="text" name="projectLeader"/>
                         </li>
-                        <li>
-                            <label>项目负责人等级：</label>
-                            <select name="leaderLv" th:with="type=${@dict.getType('leader_lv')}">
-                                <option value="">所有</option>
-                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
-                            </select>
-                        </li>
-                        <li>
-                            <label>客户名称：</label>
-                            <input type="text" name="customName"/>
-                        </li>
-                        <li>
-                            <label>项目下发图纸节点：</label>
-                            <input type="text" name="columnType"/>
-                        </li>
+<!--                        <li>-->
+<!--                            <label>项目负责人等级：</label>-->
+<!--                            <select name="leaderLv" th:with="type=${@dict.getType('leader_lv')}">-->
+<!--                                <option value="">所有</option>-->
+<!--                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
+<!--                            </select>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <label>客户名称：</label>-->
+<!--                            <input type="text" name="customName"/>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <label>项目下发图纸节点：</label>-->
+<!--                            <input type="text" name="columnType"/>-->
+<!--                        </li>-->
                         <li>
                             <label>项目类型：</label>
                             <select name="projectType" th:with="type=${@dict.getType('project_type')}">
@@ -70,41 +70,8 @@
         <div class="col-sm-12 select-table table-striped">
             <table id="bootstrap-table1"></table>
         </div>
-    </div>
-</div>
-<div class="container-div">
-    <div class="row">
-        <div class="col-sm-12 search-collapse">
-            <form id="formId2">
-                <div class="select-list">
-                    <ul>
-                        <li>
-                            <label>归档文件夹名称：</label>
-                            <input type="text" name="archiveName"/>
-                        </li>
-                        <li>
-                            <label>项目id：</label>
-                            <input type="text" name="projectId"/>
-                        </li>
-                        <li>
-                            <label>项目号：</label>
-                            <input type="text" name="projectNumber"/>
-                        </li>
-                        <li>
-                            <label>文件夹路径：</label>
-                            <input type="text" name="filePath"/>
-                        </li>
-                        <li>
-                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
-                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
-                        </li>
-                    </ul>
-                </div>
-            </form>
-        </div>
-
         <div class="btn-group-sm" id="toolbar2" role="group">
-            <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:archive:add">
+            <a class="btn btn-success" onclick=doadd() shiro:hasPermission="system:archive:add">
                 <i class="fa fa-plus"></i> 添加
             </a>
             <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:archive:edit">
@@ -122,6 +89,32 @@
         </div>
     </div>
 </div>
+<!--<div class="container-div">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-12 search-collapse">-->
+<!--            <form id="formId2">-->
+<!--                <div class="select-list">-->
+<!--                    <ul>-->
+<!--                        <li>-->
+<!--                            <label>归档文件夹名称：</label>-->
+<!--                            <input type="text" name="archiveName"/>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <label>项目号：</label>-->
+<!--                            <input type="text" name="projectNumber"/>-->
+<!--                        </li>-->
+<!--                        <li>-->
+<!--                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
+<!--                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
+<!--                        </li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </form>-->
+<!--        </div>-->
+
+
+
+
 <th:block th:include="include :: footer" />
 <script th:inline="javascript">
     var editFlag = [[${@permission.hasPermi('system:distri:edit')}]];
@@ -147,7 +140,7 @@
             },
                 {
                     field: 'projectId',
-                    title: '项目id',
+                    title: '项目id1',
                     visible: false
                 },
                 {
@@ -187,6 +180,10 @@
                 {
                     field: 'compleNode',
                     title: '项目完成节点'
+                },
+                {
+                    field: 'memo',
+                    title: '备注'
                 },
                 {
                     title: '操作',
@@ -290,6 +287,16 @@
                     }]
             };
             $.table.init(options);
+    }
+
+    function doadd() {
+        var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
+        if(rows.length == 0){
+            alert("请选择一条对应的项目号！");
+            return;
+        }
+        $.operate.add();
+
     }
 
 </script>

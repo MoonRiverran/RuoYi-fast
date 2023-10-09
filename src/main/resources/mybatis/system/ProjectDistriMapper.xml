@@ -18,10 +18,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="createTime"    column="create_time"    />
         <result property="updateBy"    column="update_by"    />
         <result property="updateTime"    column="update_time"    />
+        <result property="memo"    column="memo"    />
     </resultMap>
 
     <sql id="selectProjectDistriVo">
-        select project_id, project_number, project_leader, leader_lv, custom_name, environ_comment, column_type, project_type, comple_node, create_by, create_time, update_by, update_time from project_distri
+        select project_id, project_number, project_leader, leader_lv, custom_name, environ_comment, column_type, project_type, comple_node, create_by, create_time, update_by, update_time, memo from project_distri
     </sql>
 
     <select id="selectProjectDistriList" parameterType="ProjectDistri" resultMap="ProjectDistriResult">
@@ -35,6 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="columnType != null  and columnType != ''"> and column_type = #{columnType}</if>
             <if test="projectType != null  and projectType != ''"> and project_type = #{projectType}</if>
             <if test="compleNode != null "> and comple_node = #{compleNode}</if>
+            <if test="memo != null  and memo != ''"> and memo = #{memo}</if>
         </where>
     </select>
     
@@ -58,6 +60,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time,</if>
             <if test="updateBy != null">update_by,</if>
             <if test="updateTime != null">update_time,</if>
+            <if test="memo != null">memo,</if>
          </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="projectNumber != null">#{projectNumber},</if>
@@ -72,6 +75,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">#{createTime},</if>
             <if test="updateBy != null">#{updateBy},</if>
             <if test="updateTime != null">#{updateTime},</if>
+            <if test="memo != null">#{memo},</if>
          </trim>
     </insert>
 
@@ -90,6 +94,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="createTime != null">create_time = #{createTime},</if>
             <if test="updateBy != null">update_by = #{updateBy},</if>
             <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="memo != null">memo = #{memo},</if>
         </trim>
         where project_id = #{projectId}
     </update>

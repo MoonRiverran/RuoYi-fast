@@ -80,6 +80,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
 
         projectDistri.setCreateBy(getLoginName());
         projectDistri.setCreateTime(DateUtils.getNowDate());
+        projectDistri.setMemo("项目文件未提交");
         int rowsInserted  = projectDistriMapper.insertProjectDistri(projectDistri);
         String projectNumber = projectDistri.getProjectNumber();
         if(rowsInserted>0){
