@@ -1,6 +1,9 @@
 package com.ruoyi.project.system.archive.service.impl;
 
+import java.io.File;
 import java.util.List;
+
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,9 +65,15 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
     @Override
     public int insertProjectArchive(ProjectArchive projectArchive)
     {
-        projectArchive.setCreateBy(getLoginName());
-        projectArchive.setCreateTime(DateUtils.getNowDate());
-        return projectArchiveMapper.insertProjectArchive(projectArchive);
+        File folder = new File(projectArchive.getFilePath());
+        if (folder.exists()) {
+            throw new ServiceException("文件夹已经存在，请检查路径是否正确。");
+        } else {
+            folder.mkdirs();
+            projectArchive.setCreateBy(getLoginName());
+            projectArchive.setCreateTime(DateUtils.getNowDate());
+            return projectArchiveMapper.insertProjectArchive(projectArchive);
+        }
     }
 
     /**

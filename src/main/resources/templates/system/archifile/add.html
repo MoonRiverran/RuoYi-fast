@@ -7,16 +7,21 @@
 <body class="white-bg">
 <div class="wrapper wrapper-content animated fadeInRight ibox-content">
     <form class="form-horizontal m" id="form-archifile-add">
-        <div class="form-group">
+        <div class="form-group" hidden="true">
             <label class="col-sm-3 control-label">文件名称：</label>
             <div class="col-sm-8">
                 <input name="fileName" class="form-control" type="text">
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label">归档文件夹id：</label>
+            <div class="col-sm-8">
+                <input name="archiveId" id="archiveId" class="form-control" type="text">
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label">文件路径：</label>
             <div class="col-sm-8">
-                <input type="hidden" name="filePath">
                 <div class="file-loading">
                     <input class="form-control file-upload" id="filePath" name="file" type="file">
                 </div>
@@ -37,10 +42,15 @@
             $.operate.save(prefix + "/add", $('#form-archifile-add').serialize());
         }
     }
+    var arid = localStorage.getItem('arid');
+    var filepath = localStorage.getItem('filepath');
+    document.getElementById('archiveId').value = arid;
+    // document.getElementById('filePath').value = filepath;
+
 
     $(".file-upload").fileinput({
-        uploadUrl: ctx + 'common/upload',
-        maxFileCount: 1,
+        uploadUrl: ctx + 'common/uploads',
+        maxFileCount: 10,
         autoReplace: true
     }).on('fileuploaded', function (event, data, previewId, index) {
         $("input[name='" + event.currentTarget.id + "']").val(data.response.url)

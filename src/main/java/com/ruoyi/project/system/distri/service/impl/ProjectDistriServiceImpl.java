@@ -2,6 +2,8 @@ package com.ruoyi.project.system.distri.service.impl;
 
 import java.io.File;
 import java.util.List;
+
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.project.system.archive.domain.ProjectArchive;
 import com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper;
@@ -106,7 +108,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
                     projectArchiveMapper.insertProjectArchive(projectArchive);
                 }
         } else{
-            return 0;
+            throw new ServiceException("新增项目失败，请检查输入数据。");
         }
         return 1;
     }
@@ -144,7 +146,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
         if(projectArchives.isEmpty()){
             return projectDistriMapper.deleteProjectDistriByProjectIds(Convert.toStrArray(projectIds));
         }else{
-            return 0;
+            throw new ServiceException("新增失败！");
         }
     }
 

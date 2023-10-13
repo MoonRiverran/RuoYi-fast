@@ -11,12 +11,12 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>归档文件夹名称：</label>
-                                <input type="text" name="archiveName"/>
+                                <label>项目号：</label>
+                                <input type="text" name="projectNumber"/>
                             </li>
                             <li>
-                                <label>项目id：</label>
-                                <input type="text" name="projectId"/>
+                                <label>文件名称：</label>
+                                <input type="text" name="fileName"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -120,7 +120,16 @@
                 },
                 {
                     field: 'projectId',
-                    title: '项目id'
+                    title: '项目id',
+                    visible: false
+                },
+                {
+                    field: 'projectNumber',
+                    title: '项目号'
+                },
+                {
+                    field: 'filePath',
+                    title: '文件夹路径'
                 },
                 {
                     field: 'createBy',
@@ -226,13 +235,14 @@
        function fileadd() {
            var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
            if(rows.length == 0){
-               alert("请选择你所需要归档的文件夹！");
+               $.modal.alertWarning("请选择你所需要归档的文件夹！");
                return;
            }
-           arid = rows[0].archiveId;
-           filepath = rows[0].filePath;
+           var arid = rows[0].archiveId;
+           var filepath = rows[0].filePath;
+           localStorage.setItem('arid', arid);
+           localStorage.setItem('filepath', filepath);
            $.operate.add();
-
        }
     </script>
 </body>

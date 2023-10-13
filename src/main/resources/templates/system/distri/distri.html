@@ -12,7 +12,7 @@
                     <ul>
                         <li>
                             <label>项目号：</label>
-                            <input type="text" name="projectNumber"/>
+                            <input type="text" name="projectNumber" id="projectNumber1"/>
                         </li>
                         <li>
                             <label>项目负责人：</label>
@@ -89,31 +89,6 @@
         </div>
     </div>
 </div>
-<!--<div class="container-div">-->
-<!--    <div class="row">-->
-<!--        <div class="col-sm-12 search-collapse">-->
-<!--            <form id="formId2">-->
-<!--                <div class="select-list">-->
-<!--                    <ul>-->
-<!--                        <li>-->
-<!--                            <label>归档文件夹名称：</label>-->
-<!--                            <input type="text" name="archiveName"/>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label>项目号：</label>-->
-<!--                            <input type="text" name="projectNumber"/>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>-->
-<!--                            <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-
-
-
 
 <th:block th:include="include :: footer" />
 <script th:inline="javascript">
@@ -240,7 +215,7 @@
                 success: function(response) {
                     // 处理后台响应
                     $("#bootstrap-table2").bootstrapTable('load', response);
-                    console.log('后台响应:', response);
+                    // console.log('后台响应:', response);
                     // 在这里执行您的逻辑
                 },
                 error: function(error) {
@@ -279,7 +254,8 @@
                     },
                     {
                         field: 'projectId',
-                        title: '项目id'
+                        title: '项目id',
+                        visible: false
                     },
                     {
                         field: 'projectNumber',
@@ -322,11 +298,15 @@
     function doadd() {
         var rows = $('#bootstrap-table1').bootstrapTable('getSelections');
         if(rows.length == 0){
-            alert("请选择一条对应的项目号！");
+            $.modal.alertWarning("请至少选择一条对应的项目号！");
             return;
         }
-        $.operate.add();
+        var pn = rows[0].projectNumber;
+        var pi = rows[0].projectId;
 
+        localStorage.setItem('pn', pn);
+        localStorage.setItem('pi', pi);
+        $.operate.add();
     }
 
 </script>
