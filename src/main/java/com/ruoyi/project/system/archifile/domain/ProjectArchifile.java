@@ -4,6 +4,9 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 /**
  * 文件信息对象 project_archifile
@@ -29,6 +32,16 @@ public class ProjectArchifile extends BaseEntity
     /** 文件路径 */
     @Excel(name = "文件路径")
     private String filePath;
+
+    MultipartFile file;
+
+    public MultipartFile getFile() {
+        return file;
+    }
+
+    public void setFile(MultipartFile file) {
+        this.file = file;
+    }
 
     public void setFileId(Long fileId)
     {
@@ -67,6 +80,7 @@ public class ProjectArchifile extends BaseEntity
         return filePath;
     }
 
+
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
@@ -78,6 +92,7 @@ public class ProjectArchifile extends BaseEntity
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
+            .append("file", getFile())
             .toString();
     }
 }

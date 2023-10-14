@@ -240,8 +240,10 @@
            }
            var arid = rows[0].archiveId;
            var filepath = rows[0].filePath;
+           var fileName = rows[0].archiveName
            localStorage.setItem('arid', arid);
            localStorage.setItem('filepath', filepath);
+           localStorage.setItem('fileName', fileName);
            $.operate.add();
        }
     </script>

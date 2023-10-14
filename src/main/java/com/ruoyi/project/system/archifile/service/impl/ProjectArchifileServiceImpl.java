@@ -1,16 +1,20 @@
 package com.ruoyi.project.system.archifile.service.impl;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.project.system.archive.domain.ProjectArchive;
+import com.ruoyi.common.utils.file.FileUploadUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.project.system.archifile.mapper.ProjectArchifileMapper;
-import com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper;
 import com.ruoyi.project.system.archifile.domain.ProjectArchifile;
 import com.ruoyi.project.system.archifile.service.IProjectArchifileService;
 import com.ruoyi.common.utils.text.Convert;
+import org.springframework.web.multipart.MultipartFile;
 
 import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
 
@@ -25,9 +29,6 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
 {
     @Autowired
     private ProjectArchifileMapper projectArchifileMapper;
-
-    @Autowired
-    private ProjectArchiveMapper projectArchiveMapper;
 
 
     /**
@@ -62,7 +63,7 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
 
     /**
      * 新增文件信息
-     * 
+     *
      * @param projectArchifile 文件信息
      * @return 结果
      */
@@ -70,24 +71,91 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
     public int insertProjectArchifile(ProjectArchifile projectArchifile)
     {
         Long arid = projectArchifile.getArchiveId();
-        ProjectArchive projectArchive = projectArchiveMapper.selectProjectArchiveByArchiveId(arid);
-        String filepath = projectArchive.getFilePath();
-
-        // 构建上传文件的保存路径
-        File uploadDir = new File(filepath);
-        if (!uploadDir.exists()) {
-            uploadDir.mkdirs();
-        }
-        File destFile = new File(uploadDir.getAbsolutePath() + File.separator + projectArchifile.getFileName());
-
+        String filepath = projectArchifile.getFilePath();
+        String parentPathName = projectArchifile.getFileName();
+        MultipartFile file = projectArchifile.getFile();
+        String newName =  setName(parentPathName, file.getOriginalFilename());
+        File destFile = new File(filepath+ File.separator + newName);
         // 将文件保存到指定路径
-        //file.transferTo(destFile);
-
+        try {
+                file.transferTo(destFile);
+            }catch (Exception e){
+                throw new ServiceException("文件保存失败, 请检查文件格式和大小。");
+            }
         projectArchifile.setArchiveId(arid);
+        projectArchifile.setFileName(newName);
         projectArchifile.setCreateBy(getLoginName());
         projectArchifile.setCreateTime(DateUtils.getNowDate());
         return projectArchifileMapper.insertProjectArchifile(projectArchifile);
+//        Long arid = projectArchifile.get(0).getArchiveId();
+//        String filepath = projectArchifile.get(0).getFilePath();
+//        String parentPathName = projectArchifile.get(0).getFileName();
+//        for (ProjectArchifile projectArchifile : projectArchifile) {
+//            MultipartFile file = projectArchifile.getFile();
+//            String newName =  setName(parentPathName, file.getOriginalFilename());
+//            String destFile = filepath+ File.separator + newName;
+//            // 将文件保存到指定路径
+//            try {
+//                FileUploadUtils.upload(destFile, file);
+//            }catch (Exception e){
+//                throw new ServiceException("文件保存失败, 请检查文件格式和大小。");
+//            }
+//            projectArchifile.setArchiveId(arid);
+//            projectArchifile.setFileName(newName);
+//            projectArchifile.setCreateBy(getLoginName());
+//            projectArchifile.setCreateTime(DateUtils.getNowDate());
+//            return projectArchifileMapper.insertProjectArchifile(projectArchifile);
+//        }
     }
+
+    private String setName(String pathName, String fileName) {
+        List<String> list = Arrays.asList("1-项目启动", "2-图纸下发", "3-厂内调试", "4-随机资料", "5-设计更改", "6-程序归档", "7-程序评审文件");
+        List<String> one = Arrays.asList("01_a", "02_b", "03_c", "04_d", "05_e", "06_f");
+        List<String> two = Arrays.asList("01_a", "02_b", "03_c", "04_d");
+        List<String> three = Arrays.asList("01_a", "02_b", "03_c", "04_d");
+        List<String> four = Arrays.asList("01_a", "02_b", "03_c", "04_d");
+        List<String> five = Arrays.asList("01_a", "02_b", "03_c");
+        List<String> six = Arrays.asList("01_a", "02_b", "03_c", "04_d", "05_e", "06_f", "07_g");
+        List<String> seven = Arrays.asList("01_a", "02_b");
+
+        for (int i = 0; i < list.size(); i++) {
+            if (pathName.equals(list.get(i))) {
+                List<String> selectedList = null;
+                switch (i) {
+                    case 0:
+                        selectedList = one;
+                        break;
+                    case 1:
+                        selectedList = two;
+                        break;
+                    case 2:
+                        selectedList = three;
+                        break;
+                    case 3:
+                        selectedList = four;
+                        break;
+                    case 4:
+                        selectedList = five;
+                        break;
+                    case 5:
+                        selectedList = six;
+                        break;
+                    case 6:
+                        selectedList = seven;
+                        break;
+                }
+                if (selectedList != null) {
+                    for (String item : selectedList) {//获取前两个字符才行
+                        if (item.contains(fileName)) {
+                            return item;
+                        }
+                    }
+                }
+            }
+        }
+        return"";
+    }
+
 
     /**
      * 修改文件信息
