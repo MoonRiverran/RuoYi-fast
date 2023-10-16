@@ -15,7 +15,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProjectFilemodelVo">
-        select file_id, file_name, SUBSTRING_INDEX(file_path, '/', -1) AS file_path, create_by, create_time, update_by, update_time from project_filemodel
+        select file_id, file_name, file_path, SUBSTRING_INDEX(file_path, '/', -1) AS showName, create_by, create_time, update_by, update_time from project_filemodel
     </sql>
 
     <select id="selectProjectFilemodelList" parameterType="ProjectFilemodel" resultMap="ProjectFilemodelResult">

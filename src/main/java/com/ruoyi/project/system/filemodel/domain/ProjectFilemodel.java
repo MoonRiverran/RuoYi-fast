@@ -22,6 +22,8 @@ public class ProjectFilemodel extends BaseEntity
     @Excel(name = "文件名称")
     private String fileName;
 
+    private String showName;
+
     /** 文件路径 */
     @Excel(name = "文件路径")
     private String filePath;
@@ -54,11 +56,19 @@ public class ProjectFilemodel extends BaseEntity
         return filePath;
     }
 
+    public String getShowName() {
+        return showName;
+    }
+
+    public void setShowName(String showName) {
+        this.showName = showName;
+    }
     @Override
     public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("fileId", getFileId())
             .append("fileName", getFileName())
+            .append("showName", getShowName())
             .append("filePath", getFilePath())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
