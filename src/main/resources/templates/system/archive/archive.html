@@ -241,9 +241,11 @@
            var arid = rows[0].archiveId;
            var filepath = rows[0].filePath;
            var fileName = rows[0].archiveName
+           var projectNumber = rows[0].projectNumber;
            localStorage.setItem('arid', arid);
            localStorage.setItem('filepath', filepath);
            localStorage.setItem('fileName', fileName);
+           localStorage.setItem('projectNumber', projectNumber);
            $.operate.add();
        }
     </script>

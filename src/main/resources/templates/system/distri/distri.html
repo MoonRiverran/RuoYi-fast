@@ -174,21 +174,30 @@
                 {
                     field: 'memo',
                     title: '备注',
-                    cellStyle:function(value,row,index){
+                    cellStyle: function (value, row) {
                         var date = new Date(row.compleNode);
                         var today = new Date();
                         var oneDay = 1000 * 60 * 60 * 24;
-                        if (Math.abs(date - today) <= oneDay) {
+
+                        // 计算日期差值（以毫秒为单位）
+                        var dateDifference = today -date;
+
+                        if (dateDifference > oneDay) {
+                            // 如果date晚于today一天，则为红色
                             return {
-                                css:{"background-color":'rgb(255,255,0)'}
+                                css: {"background-color": 'rgb(255, 51, 0)'}
+                            };
+                        } else if (dateDifference > -2 * oneDay) {
+                            // 如果date早于today两天，则为黄色
+                            return {
+                                css: {"background-color": 'rgb(255, 255, 0)'}
                             };
                         } else {
-                            return {
-                                css:{"background-color":'rgb(255, 51, 0)'}
-                            };
+                            // 其他情况下不改变背景颜色
+                            return {};
                         }
                     }
-                },
+        },
                 {
                     title: '操作',
                     align: 'center',

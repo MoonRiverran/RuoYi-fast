@@ -42,7 +42,10 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">项目下发图纸节点：</label>
                 <div class="col-sm-8">
-                    <input name="columnType" class="form-control" type="text">
+                    <div class="input-group date">
+                    <input name="columnType" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    </div>
                 </div>
             </div>
             <div class="form-group">    
@@ -79,6 +82,12 @@
         }
 
         $("input[name='compleNode']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='columnType']").datetimepicker({
             format: "yyyy-mm-dd",
             minView: "month",
             autoclose: true

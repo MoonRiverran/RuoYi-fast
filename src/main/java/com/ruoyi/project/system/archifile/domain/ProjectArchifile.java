@@ -33,6 +33,8 @@ public class ProjectArchifile extends BaseEntity
     @Excel(name = "文件路径")
     private String filePath;
 
+    private String projectNumber;
+
     MultipartFile file;
 
     public MultipartFile getFile() {
@@ -80,6 +82,14 @@ public class ProjectArchifile extends BaseEntity
         return filePath;
     }
 
+    public String getProjectNumber() {
+        return projectNumber;
+    }
+
+    public void setProjectNumber(String projectNumber) {
+        this.projectNumber = projectNumber;
+    }
+
 
     @Override
     public String toString() {
@@ -93,6 +103,7 @@ public class ProjectArchifile extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("file", getFile())
+            .append("projectNumber", getProjectNumber())
             .toString();
     }
 }
