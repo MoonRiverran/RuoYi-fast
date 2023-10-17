@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.project.system.phyexam.mapper.EmpPhyexamMapper">
+    
+    <resultMap type="EmpPhyexam" id="EmpPhyexamResult">
+        <result property="userId"    column="user_id"    />
+        <result property="jobNumber"    column="job_number"    />
+        <result property="userName"    column="user_name"    />
+        <result property="status"    column="status"    />
+        <result property="examTime"    column="exam_time"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
+    <sql id="selectEmpPhyexamVo">
+        select user_id, job_number, user_name, status, exam_time, create_by, create_time, update_by, update_time, remark from emp_phyexam
+    </sql>
+
+    <select id="selectEmpPhyexamList" parameterType="EmpPhyexam" resultMap="EmpPhyexamResult">
+        <include refid="selectEmpPhyexamVo"/>
+        <where>  
+            <if test="jobNumber != null  and jobNumber != ''"> and job_number = #{jobNumber}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="examTime != null "> and exam_time = #{examTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectEmpPhyexamByUserId" parameterType="Long" resultMap="EmpPhyexamResult">
+        <include refid="selectEmpPhyexamVo"/>
+        where user_id = #{userId}
+    </select>
+        
+    <insert id="insertEmpPhyexam" parameterType="EmpPhyexam" useGeneratedKeys="true" keyProperty="userId">
+        insert into emp_phyexam
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="jobNumber != null">job_number,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="status != null">status,</if>
+            <if test="examTime != null">exam_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="jobNumber != null">#{jobNumber},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="status != null">#{status},</if>
+            <if test="examTime != null">#{examTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+         </trim>
+    </insert>
+
+    <update id="updateEmpPhyexam" parameterType="EmpPhyexam">
+        update emp_phyexam
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="jobNumber != null">job_number = #{jobNumber},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="examTime != null">exam_time = #{examTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </trim>
+        where user_id = #{userId}
+    </update>
+
+    <delete id="deleteEmpPhyexamByUserId" parameterType="Long">
+        delete from emp_phyexam where user_id = #{userId}
+    </delete>
+
+    <delete id="deleteEmpPhyexamByUserIds" parameterType="String">
+        delete from emp_phyexam where user_id in 
+        <foreach item="userId" collection="array" open="(" separator="," close=")">
+            #{userId}
+        </foreach>
+    </delete>
+
+</mapper>
