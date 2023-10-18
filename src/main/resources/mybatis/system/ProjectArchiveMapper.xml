@@ -21,12 +21,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectProjectArchiveList" parameterType="ProjectArchive" resultMap="ProjectArchiveResult">
-        <include refid="selectProjectArchiveVo"/>
-        <where>  
-            <if test="archiveName != null  and archiveName != ''"> and archive_name like concat('%', #{archiveName}, '%')</if>
-            <if test="projectId != null "> and project_id = #{projectId}</if>
-            <if test="projectNumber != null  and projectNumber != ''"> and project_number = #{projectNumber}</if>
-            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+        select a.archive_id, a.archive_name, a.project_id, a.project_number, a.file_path, a.create_by, a.create_time, a.update_by, a.update_time from project_archive a
+        <where>
+            <if test="deptId != null "> and a.project_id in(SELECT project_id from project_distri b where b.dept_id = #{deptId})</if>
+            <if test="archiveName != null  and archiveName != ''"> and a.archive_name like concat('%', #{archiveName}, '%')</if>
+            <if test="projectId != null "> and a.project_id = #{projectId}</if>
+            <if test="projectNumber != null  and projectNumber != ''"> and a.project_number = #{projectNumber}</if>
+            <if test="filePath != null  and filePath != ''"> and a.file_path = #{filePath}</if>
         </where>
     </select>
 

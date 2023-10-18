@@ -13,6 +13,7 @@ import com.ruoyi.project.system.archive.service.IProjectArchiveService;
 import com.ruoyi.common.utils.text.Convert;
 
 import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
+import static com.ruoyi.common.utils.security.ShiroUtils.getSysUser;
 
 /**
  * 项目归档Service业务层处理
@@ -47,6 +48,10 @@ public class ProjectArchiveServiceImpl implements IProjectArchiveService
     @Override
     public List<ProjectArchive> selectProjectArchiveList(ProjectArchive projectArchive)
     {
+        Long deptid = getSysUser().getDeptId();
+        if(deptid != null && deptid != 100){
+            projectArchive.setDeptId(deptid);
+        }
         return projectArchiveMapper.selectProjectArchiveList(projectArchive);
     }
 

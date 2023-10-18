@@ -9,6 +9,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="projectNumber"    column="project_number"    />
         <result property="projectLeader"    column="project_leader"    />
         <result property="leaderLv"    column="leader_lv"    />
+        <result property="deptId"    column="dept_id"    />
         <result property="customName"    column="custom_name"    />
         <result property="environComment"    column="environ_comment"    />
         <result property="columnType"    column="column_type"    />
@@ -22,7 +23,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectProjectDistriVo">
-        select project_id, project_number, project_leader, leader_lv, custom_name, environ_comment, column_type, project_type, comple_node, create_by, create_time, update_by, update_time, memo from project_distri
+        select project_id, project_number, project_leader, leader_lv, dept_id, custom_name, environ_comment, column_type, project_type, comple_node, create_by, create_time, update_by, update_time, memo from project_distri
     </sql>
 
     <select id="selectProjectDistriList" parameterType="ProjectDistri" resultMap="ProjectDistriResult">
@@ -31,6 +32,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectNumber != null  and projectNumber != ''"> and project_number = #{projectNumber}</if>
             <if test="projectLeader != null  and projectLeader != ''"> and project_leader like concat('%', #{projectLeader}, '%')</if>
             <if test="leaderLv != null  and leaderLv != ''"> and leader_lv = #{leaderLv}</if>
+            <if test="deptId != null "> and dept_id = #{deptId}</if>
             <if test="customName != null  and customName != ''"> and custom_name like concat('%', #{customName}, '%')</if>
             <if test="environComment != null  and environComment != ''"> and environ_comment like concat('%', #{environComment}, '%')</if>
             <if test="columnType != null  and columnType != ''"> and column_type = #{columnType}</if>
@@ -51,6 +53,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectNumber != null">project_number,</if>
             <if test="projectLeader != null">project_leader,</if>
             <if test="leaderLv != null">leader_lv,</if>
+            <if test="deptId != null">dept_id,</if>
             <if test="customName != null">custom_name,</if>
             <if test="environComment != null">environ_comment,</if>
             <if test="columnType != null">column_type,</if>
@@ -66,6 +69,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectNumber != null">#{projectNumber},</if>
             <if test="projectLeader != null">#{projectLeader},</if>
             <if test="leaderLv != null">#{leaderLv},</if>
+            <if test="deptId != null">#{deptId},</if>
             <if test="customName != null">#{customName},</if>
             <if test="environComment != null">#{environComment},</if>
             <if test="columnType != null">#{columnType},</if>
@@ -85,6 +89,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="projectNumber != null">project_number = #{projectNumber},</if>
             <if test="projectLeader != null">project_leader = #{projectLeader},</if>
             <if test="leaderLv != null">leader_lv = #{leaderLv},</if>
+            <if test="deptId != null">dept_id = #{deptId},</if>
             <if test="customName != null">custom_name = #{customName},</if>
             <if test="environComment != null">environ_comment = #{environComment},</if>
             <if test="columnType != null">column_type = #{columnType},</if>

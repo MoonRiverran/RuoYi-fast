@@ -15,6 +15,7 @@ import com.ruoyi.project.system.distri.service.IProjectDistriService;
 import com.ruoyi.common.utils.text.Convert;
 
 import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
+import static com.ruoyi.common.utils.security.ShiroUtils.getSysUser;
 
 /**
  * 项目下发Service业务层处理
@@ -55,6 +56,10 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
     @Override
     public List<ProjectDistri> selectProjectDistriList(ProjectDistri projectDistri)
     {
+        Long deptid = getSysUser().getDeptId();
+        if(deptid != null && deptid != 100){
+            projectDistri.setDeptId(deptid);
+        }
         return projectDistriMapper.selectProjectDistriList(projectDistri);
     }
 

@@ -26,6 +26,9 @@ public class ProjectArchive extends BaseEntity
     @Excel(name = "项目id")
     private Long projectId;
 
+    /** 部门id */
+    private Long deptId;
+
     /** 项目号 */
     @Excel(name = "项目号")
     private String projectNumber;
@@ -78,6 +81,14 @@ public class ProjectArchive extends BaseEntity
     public String getFilePath()
     {
         return filePath;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
     }
 
     @Override

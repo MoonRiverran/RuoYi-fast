@@ -34,6 +34,13 @@
 <!--                            <input type="text" name="columnType"/>-->
 <!--                        </li>-->
                         <li>
+                            <label>部门名称：</label>
+                            <select name="deptId" th:with="type=${@dict.getType('dept_name')}">
+                                <option value="">所有</option>
+                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>
+                            </select>
+                        </li>
+                        <li>
                             <label>项目类型：</label>
                             <select name="projectType" th:with="type=${@dict.getType('project_type')}">
                                 <option value="">所有</option>
@@ -95,6 +102,7 @@
     var editFlag = [[${@permission.hasPermi('system:distri:edit')}]];
     var removeFlag = [[${@permission.hasPermi('system:distri:remove')}]];
     var leaderLvDatas = [[${@dict.getType('leader_lv')}]];
+    var deptIdDatas = [[${@dict.getType('dept_name')}]];
     var projectTypeDatas = [[${@dict.getType('project_type')}]];
     var prefix = ctx + "system/distri";
 
@@ -146,6 +154,13 @@
                     title: '项目负责人等级',
                     formatter: function(value, row, index) {
                         return $.table.selectDictLabel(leaderLvDatas, value);
+                    }
+                },
+                {
+                    field: 'deptId',
+                    title: '部门名称',
+                    formatter: function(value, row, index) {
+                        return $.table.selectDictLabel(deptIdDatas, value);
                     }
                 },
                 {

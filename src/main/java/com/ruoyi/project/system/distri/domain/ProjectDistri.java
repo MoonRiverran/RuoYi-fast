@@ -32,6 +32,10 @@ public class ProjectDistri extends BaseEntity
     @Excel(name = "项目负责人等级")
     private String leaderLv;
 
+    /** 部门id */
+    @Excel(name = "部门id")
+    private Long deptId;
+
     /** 客户名称 */
     @Excel(name = "客户名称")
     private String customName;
@@ -93,7 +97,15 @@ public class ProjectDistri extends BaseEntity
     {
         return leaderLv;
     }
-    public void setCustomName(String customName)
+    public void setDeptId(Long deptId)
+    {
+        this.deptId = deptId;
+    }
+
+    public Long getDeptId() {
+        return deptId;
+    }
+        public void setCustomName(String customName)
     {
         this.customName = customName;
     }
@@ -154,6 +166,7 @@ public class ProjectDistri extends BaseEntity
             .append("projectNumber", getProjectNumber())
             .append("projectLeader", getProjectLeader())
             .append("leaderLv", getLeaderLv())
+            .append("deptId", getDeptId())
             .append("customName", getCustomName())
             .append("environComment", getEnvironComment())
             .append("columnType", getColumnType())
