@@ -58,4 +58,5 @@ public interface IEmpPhyexamService
      * @return 结果
      */
     public int deleteEmpPhyexamByUserId(Long userId);
+
 }

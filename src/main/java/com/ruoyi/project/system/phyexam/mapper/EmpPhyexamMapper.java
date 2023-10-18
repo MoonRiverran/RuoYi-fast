@@ -58,4 +58,6 @@ public interface EmpPhyexamMapper
      * @return 结果
      */
     public int deleteEmpPhyexamByUserIds(String[] userIds);
+
+    public void updateEmpTime();
 }

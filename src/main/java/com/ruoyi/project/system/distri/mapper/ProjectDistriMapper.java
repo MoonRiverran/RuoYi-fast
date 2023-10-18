@@ -60,4 +60,6 @@ public interface ProjectDistriMapper
      * @return 结果
      */
     public int deleteProjectDistriByProjectIds(String[] projectIds);
+
+    public int selectProjectDistriByPN(String projectNumber);
 }

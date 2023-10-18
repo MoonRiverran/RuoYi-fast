@@ -46,7 +46,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <include refid="selectProjectDistriVo"/>
         where project_id = #{projectId}
     </select>
-        
+
+    <select id="selectProjectDistriByPN" resultType="int" parameterType="java.lang.String">
+        SELECT COUNT(*)
+        FROM project_distri
+        WHERE project_number = #{projectNumber}
+    </select>
+
     <insert id="insertProjectDistri" parameterType="ProjectDistri" useGeneratedKeys="true" keyProperty="projectId">
         insert into project_distri
         <trim prefix="(" suffix=")" suffixOverrides=",">

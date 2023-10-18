@@ -73,13 +73,15 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
     public int insertProjectDistri(ProjectDistri projectDistri) {
         // 创建主文件夹
         String entityFolderName = projectDistri.getProjectNumber() + "_" + projectDistri.getProjectLeader();
+        int count = isPNExists(projectDistri.getProjectNumber());
+        if(count > 0){
+            throw new ServiceException("已存在相同的项目号，请确认您要输入的项目号。");
+        }
         //根据entityFolderName查询baseDirectory是否有相同名字的文件夹，如果有的话给出校验提示
         boolean folderExists = isFolderExists(entityFolderName);
-//        if (folderExists) {
-//            return ResponseEntity.badRequest().body("文件夹已存在，请更改文件夹名称。");
-//        } else {
-//            return ResponseEntity.ok("文件夹名称可用。");
-//        }
+        if (folderExists) {
+            throw new ServiceException("文件夹已存在，请更改文件夹名称。");
+        }
         String entityFolderPath = baseDirectory + File.separator + entityFolderName;
         File entityFolder = new File(entityFolderPath);
         entityFolder.mkdirs();
@@ -115,6 +117,11 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
             throw new ServiceException("新增项目失败，请检查输入数据。");
         }
         return 1;
+    }
+
+    private int isPNExists(String projectNumber) {
+        int count = projectDistriMapper.selectProjectDistriByPN(projectNumber);
+        return count;
     }
 
     public boolean isFolderExists(String folderName) {

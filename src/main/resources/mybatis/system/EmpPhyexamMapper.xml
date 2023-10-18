@@ -89,4 +89,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </foreach>
     </delete>
 
+    <update id="updateEmpTime">
+        UPDATE emp_phyexam
+        SET status = CASE
+                         WHEN TIMESTAMPDIFF(MONTH, exam_time, NOW()) >= 6 THEN 1
+                         ELSE 0
+        END;
+    </update>
+
 </mapper>

@@ -42,6 +42,7 @@ public class EmpPhyexamServiceImpl implements IEmpPhyexamService
     @Override
     public List<EmpPhyexam> selectEmpPhyexamList(EmpPhyexam empPhyexam)
     {
+        empPhyexamMapper.updateEmpTime();
         return empPhyexamMapper.selectEmpPhyexamList(empPhyexam);
     }
 
