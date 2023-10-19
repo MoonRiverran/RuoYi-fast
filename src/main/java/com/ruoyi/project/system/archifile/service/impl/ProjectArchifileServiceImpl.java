@@ -76,25 +76,27 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
         Long arid = projectArchifile.getArchiveId();
         String filepath = projectArchifile.getFilePath();
         String parentPathName = projectArchifile.getFileName();
-        MultipartFile mulfile = projectArchifile.getFile();
+        List<MultipartFile> mulfiles = projectArchifile.getFiles();
+        for(MultipartFile mulfile:mulfiles){
+            String fileName = mulfile.getOriginalFilename();
+            String fileExtension = getFileExtension(fileName);
+            String projectNumber = extractAlphanumeric(projectArchifile.getProjectNumber());
 
-        String fileName = mulfile.getOriginalFilename();
-        String fileExtension = getFileExtension(fileName);
-        String projectNumber = extractAlphanumeric(projectArchifile.getProjectNumber());
-
-        String newFileName =  setName(parentPathName, fileName.substring(0,2), projectNumber) + "__"+ getSysUser().getUserName() + "_" +
-                DateUtils.getDate1() + fileExtension;
-        File destFile = new File(filepath, newFileName);
-        try {
+            String newFileName =  setName(parentPathName, fileName.substring(0,2), projectNumber) + "__"+ getSysUser().getUserName() + "_" +
+                    DateUtils.getDate1() + fileExtension;
+            File destFile = new File(filepath, newFileName);
+            try {
                 mulfile.transferTo(destFile);
             }catch (Exception e){
                 throw new ServiceException("文件保存失败, 请检查文件格式和大小。");
             }
-        projectArchifile.setArchiveId(arid);
-        projectArchifile.setFileName(newFileName);
-        projectArchifile.setCreateBy(getLoginName());
-        projectArchifile.setCreateTime(DateUtils.getNowDate());
-        return projectArchifileMapper.insertProjectArchifile(projectArchifile);
+            projectArchifile.setArchiveId(arid);
+            projectArchifile.setFileName(newFileName);
+            projectArchifile.setCreateBy(getLoginName());
+            projectArchifile.setCreateTime(DateUtils.getNowDate());
+            projectArchifileMapper.insertProjectArchifile(projectArchifile);
+        }
+        return 1;
     }
 
     private String getFileExtension(String fileName) {

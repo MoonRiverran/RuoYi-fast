@@ -37,6 +37,14 @@ public class ProjectArchive extends BaseEntity
     @Excel(name = "文件夹路径")
     private String filePath;
 
+    /** 应该上传文件数量 */
+    @Excel(name = "应该上传文件数量")
+    private Integer upfileNum;
+
+    /** 实际上传文件数量 */
+    @Excel(name = "实际上传文件数量")
+    private Integer actualfileNum;
+
     public void setArchiveId(Long archiveId)
     {
         this.archiveId = archiveId;
@@ -83,6 +91,25 @@ public class ProjectArchive extends BaseEntity
         return filePath;
     }
 
+    public void setUpfileNum(Integer upfileNum)
+    {
+        this.upfileNum = upfileNum;
+    }
+
+    public Integer getUpfileNum()
+    {
+        return upfileNum;
+    }
+    public void setActualfileNum(Integer actualfileNum)
+    {
+        this.actualfileNum = actualfileNum;
+    }
+
+    public Integer getActualfileNum()
+    {
+        return actualfileNum;
+    }
+
     public Long getDeptId() {
         return deptId;
     }
@@ -99,6 +126,8 @@ public class ProjectArchive extends BaseEntity
             .append("projectId", getProjectId())
             .append("projectNumber", getProjectNumber())
             .append("filePath", getFilePath())
+            .append("upfileNum", getUpfileNum())
+            .append("actualfileNum", getActualfileNum())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())
             .append("updateBy", getUpdateBy())

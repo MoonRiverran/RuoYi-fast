@@ -6,6 +6,7 @@ import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -36,6 +37,8 @@ public class ProjectArchifile extends BaseEntity
     private String projectNumber;
 
     MultipartFile file;
+
+    List<MultipartFile> files = new ArrayList<>();
 
     public MultipartFile getFile() {
         return file;
@@ -90,6 +93,14 @@ public class ProjectArchifile extends BaseEntity
         this.projectNumber = projectNumber;
     }
 
+    public List<MultipartFile> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<MultipartFile> files) {
+        this.files = files;
+    }
+
 
     @Override
     public String toString() {
@@ -103,6 +114,7 @@ public class ProjectArchifile extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("file", getFile())
+            .append("files", getFiles())
             .append("projectNumber", getProjectNumber())
             .toString();
     }

@@ -1,7 +1,9 @@
 package com.ruoyi.project.system.distri.service.impl;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.ruoyi.common.exception.ServiceException;
 import com.ruoyi.common.utils.DateUtils;
@@ -91,10 +93,22 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
         projectDistri.setMemo("图纸未归档");
         int rowsInserted  = projectDistriMapper.insertProjectDistri(projectDistri);
         String projectNumber = projectDistri.getProjectNumber();
+
+        //如果成功创建项目则生成对应的默认7个文件夹
         if(rowsInserted>0){
             Long projectid = projectDistri.getProjectId();
             // 创建7个子文件夹
             String[] subfolderNames = {"1-项目启动", "2-图纸下发", "3-厂内调试", "4-随机资料", "5-设计更改", "6-程序归档", "7-程序评审文件"};
+            // 创建7个子文件各自应该上传文件数量的Map映射
+            Map<String, Integer> folderNameToCount = new HashMap<>();
+            folderNameToCount.put("1-项目启动", 6);
+            folderNameToCount.put("2-图纸下发", 6);
+            folderNameToCount.put("3-厂内调试", 4);
+            folderNameToCount.put("4-随机资料", 2);
+            folderNameToCount.put("5-设计更改", 2);
+            folderNameToCount.put("6-程序归档", 1);
+            folderNameToCount.put("7-程序评审文件", 5);
+
             ProjectArchive projectArchive = new ProjectArchive();
             for (String subfolderName : subfolderNames) {
                 String subfolderPath = "";
@@ -105,6 +119,8 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
                 }
                     File subfolder = new File(subfolderPath);
                     subfolder.mkdirs();
+                    int fileNum = folderNameToCount.getOrDefault(subfolderName, 0);
+                    projectArchive.setUpfileNum(fileNum);
                     projectArchive.setArchiveName(subfolderName);
                     projectArchive.setProjectId(projectid);
                     projectArchive.setProjectNumber(projectNumber);
