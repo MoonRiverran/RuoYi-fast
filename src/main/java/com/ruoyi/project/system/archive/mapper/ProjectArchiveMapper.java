@@ -1,16 +1,16 @@
 package com.ruoyi.project.system.archive.mapper;
 
-import java.util.List;
 import com.ruoyi.project.system.archive.domain.ProjectArchive;
+
+import java.util.List;
 
 /**
  * 项目归档Mapper接口
- * 
+ *
  * @author ruoyi
  * @date 2023-09-18
  */
-public interface ProjectArchiveMapper 
-{
+public interface ProjectArchiveMapper {
     /**
      * 查询项目归档
      * 
@@ -60,4 +60,5 @@ public interface ProjectArchiveMapper
     public int deleteProjectArchiveByArchiveIds(String[] archiveIds);
 
     public List<ProjectArchive> selectProjectArchiveListByPN(String projectId);
+
 }

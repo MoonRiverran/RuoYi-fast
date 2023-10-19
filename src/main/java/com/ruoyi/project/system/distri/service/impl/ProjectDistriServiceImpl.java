@@ -1,20 +1,20 @@
 package com.ruoyi.project.system.distri.service.impl;
 
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.system.archive.domain.ProjectArchive;
+import com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper;
+import com.ruoyi.project.system.distri.domain.ProjectDistri;
+import com.ruoyi.project.system.distri.mapper.ProjectDistriMapper;
+import com.ruoyi.project.system.distri.service.IProjectDistriService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.DateUtils;
-import com.ruoyi.project.system.archive.domain.ProjectArchive;
-import com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.ruoyi.project.system.distri.mapper.ProjectDistriMapper;
-import com.ruoyi.project.system.distri.domain.ProjectDistri;
-import com.ruoyi.project.system.distri.service.IProjectDistriService;
-import com.ruoyi.common.utils.text.Convert;
 
 import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
 import static com.ruoyi.common.utils.security.ShiroUtils.getSysUser;
@@ -62,6 +62,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
         if(deptid != null && deptid != 100){
             projectDistri.setDeptId(deptid);
         }
+        projectDistriMapper.updateMemo();
         return projectDistriMapper.selectProjectDistriList(projectDistri);
     }
 
@@ -90,7 +91,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
 
         projectDistri.setCreateBy(getLoginName());
         projectDistri.setCreateTime(DateUtils.getNowDate());
-        projectDistri.setMemo("图纸未归档");
+        projectDistri.setMemo("图纸未归档完全");
         int rowsInserted  = projectDistriMapper.insertProjectDistri(projectDistri);
         String projectNumber = projectDistri.getProjectNumber();
 
@@ -120,8 +121,9 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
                     File subfolder = new File(subfolderPath);
                     subfolder.mkdirs();
                     int fileNum = folderNameToCount.getOrDefault(subfolderName, 0);
-                    projectArchive.setUpfileNum(fileNum);
-                    projectArchive.setArchiveName(subfolderName);
+                projectArchive.setUpfileNum(fileNum);
+                projectArchive.setActualfileNum(0);
+                projectArchive.setArchiveName(subfolderName);
                     projectArchive.setProjectId(projectid);
                     projectArchive.setProjectNumber(projectNumber);
                     projectArchive.setFilePath(subfolderPath);
@@ -173,7 +175,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
         if(projectArchives.isEmpty()){
             return projectDistriMapper.deleteProjectDistriByProjectIds(Convert.toStrArray(projectIds));
         }else{
-            throw new ServiceException("新增失败！");
+            throw new ServiceException("删除失败，项目中有对应的归档文件信息未删除！");
         }
     }
 

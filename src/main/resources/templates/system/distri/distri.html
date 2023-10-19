@@ -18,21 +18,6 @@
                             <label>项目负责人：</label>
                             <input type="text" name="projectLeader"/>
                         </li>
-<!--                        <li>-->
-<!--                            <label>项目负责人等级：</label>-->
-<!--                            <select name="leaderLv" th:with="type=${@dict.getType('leader_lv')}">-->
-<!--                                <option value="">所有</option>-->
-<!--                                <option th:each="dict : ${type}" th:text="${dict.dictLabel}" th:value="${dict.dictValue}"></option>-->
-<!--                            </select>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label>客户名称：</label>-->
-<!--                            <input type="text" name="customName"/>-->
-<!--                        </li>-->
-<!--                        <li>-->
-<!--                            <label>项目下发图纸节点：</label>-->
-<!--                            <input type="text" name="columnType"/>-->
-<!--                        </li>-->
                         <li>
                             <label>部门名称：</label>
                             <select name="deptId" th:with="type=${@dict.getType('dept_name')}">
@@ -118,21 +103,6 @@
             modalName: "项目下发",
             singleSelect: true,
             onCheck : zOnClick,
-            // rowStyle: function(row) {
-            //     var date = new Date(row.compleNode);
-            //     var today = new Date();
-            //     var oneDay = 1000 * 60 * 60 * 24;
-            //
-            //     if (Math.abs(date - today) <= oneDay) {
-            //         return {
-            //             css:{"background-color":'rgb(255,255,0)'}
-            //         };
-            //     } else {
-            //         return {
-            //             css:{"background-color":'rgb(255, 51, 0)'}
-            //         };
-            //     }
-            // },
             columns: [{
                 checkbox: true
             },
@@ -200,12 +170,12 @@
                         // 计算日期差值（以毫秒为单位）
                         var dateDifference = today -date;
 
-                        if (dateDifference > oneDay) {
+                        if (dateDifference > oneDay && value === '图纸未归档完全') {
                             // 如果date晚于today一天，则为红色
                             return {
                                 css: {"background-color": 'rgb(255, 51, 0)'}
                             };
-                        } else if (dateDifference > -2 * oneDay) {
+                        } else if (dateDifference > -2 * oneDay && value === '图纸未归档完全') {
                             // 如果date早于today两天，则为黄色
                             return {
                                 css: {"background-color": 'rgb(255, 255, 0)'}

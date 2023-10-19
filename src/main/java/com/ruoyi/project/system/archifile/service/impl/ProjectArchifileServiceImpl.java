@@ -1,48 +1,50 @@
 package com.ruoyi.project.system.archifile.service.impl;
 
+import com.ruoyi.common.exception.ServiceException;
+import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.common.utils.text.Convert;
+import com.ruoyi.project.system.archifile.domain.ProjectArchifile;
+import com.ruoyi.project.system.archifile.mapper.ProjectArchifileMapper;
+import com.ruoyi.project.system.archifile.service.IProjectArchifileService;
+import com.ruoyi.project.system.archive.domain.ProjectArchive;
+import com.ruoyi.project.system.archive.mapper.ProjectArchiveMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.io.File;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import com.ruoyi.common.exception.ServiceException;
-import com.ruoyi.common.utils.DateUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import com.ruoyi.project.system.archifile.mapper.ProjectArchifileMapper;
-import com.ruoyi.project.system.archifile.domain.ProjectArchifile;
-import com.ruoyi.project.system.archifile.service.IProjectArchifileService;
-import com.ruoyi.common.utils.text.Convert;
-import org.springframework.web.multipart.MultipartFile;
+import java.util.stream.Collectors;
 
 import static com.ruoyi.common.utils.security.ShiroUtils.getLoginName;
 import static com.ruoyi.common.utils.security.ShiroUtils.getSysUser;
 
 /**
  * 文件信息Service业务层处理
- * 
+ *
  * @author ruoyi
  * @date 2023-09-18
  */
 @Service
-public class ProjectArchifileServiceImpl implements IProjectArchifileService 
-{
+public class ProjectArchifileServiceImpl implements IProjectArchifileService {
     @Autowired
     private ProjectArchifileMapper projectArchifileMapper;
 
+    @Autowired
+    private ProjectArchiveMapper projectArchiveMapper;
 
     /**
      * 查询文件信息
-     * 
+     *
      * @param fileId 文件信息主键
      * @return 文件信息
      */
     @Override
-    public ProjectArchifile selectProjectArchifileByFileId(Long fileId)
-    {
+    public ProjectArchifile selectProjectArchifileByFileId(Long fileId) {
         return projectArchifileMapper.selectProjectArchifileByFileId(fileId);
     }
 
@@ -77,12 +79,17 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
         String filepath = projectArchifile.getFilePath();
         String parentPathName = projectArchifile.getFileName();
         List<MultipartFile> mulfiles = projectArchifile.getFiles();
-        for(MultipartFile mulfile:mulfiles){
+        ProjectArchive projectArchive = projectArchiveMapper.selectProjectArchiveByArchiveId(arid);
+        int actulFileNum = projectArchive.getActualfileNum();
+        int filecount = mulfiles.size();
+        projectArchive.setActualfileNum(filecount + actulFileNum);
+        projectArchiveMapper.updateProjectArchive(projectArchive);
+        for (MultipartFile mulfile : mulfiles) {
             String fileName = mulfile.getOriginalFilename();
             String fileExtension = getFileExtension(fileName);
             String projectNumber = extractAlphanumeric(projectArchifile.getProjectNumber());
 
-            String newFileName =  setName(parentPathName, fileName.substring(0,2), projectNumber) + "__"+ getSysUser().getUserName() + "_" +
+            String newFileName = setName(parentPathName, fileName.substring(0, 2), projectNumber) + "__" + getSysUser().getUserName() + "_" +
                     DateUtils.getDate1() + fileExtension;
             File destFile = new File(filepath, newFileName);
             try {
@@ -196,20 +203,46 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService
 
     /**
      * 批量删除文件信息
-     * 
+     *
      * @param fileIds 需要删除的文件信息主键
      * @return 结果
      */
     @Override
-    public int deleteProjectArchifileByFileIds(String fileIds)
-    {
-        String[] fileIdArray = fileIds.split(",");
-        for(String fileId:fileIdArray){
-            ProjectArchifile projectArchifile = projectArchifileMapper.selectProjectArchifileByFileId(Long.valueOf(fileId));
+    public int deleteProjectArchifileByFileIds(String fileIds) {
+        // 使用 Stream 和 Arrays 来处理文件ID字符串的拆分和处理
+        List<Long> fileIdList = Arrays.stream(fileIds.split(","))
+                .map(Long::valueOf)
+                .collect(Collectors.toList());
+
+        if (fileIdList.isEmpty()) {
+            // 如果文件ID列表为空，无需继续执行，直接返回0
+            return 0;
+        }
+
+        // 获取第一个文件ID，用于后续的更新操作
+        Long firstFileId = fileIdList.get(0);
+
+        // 批量查询文件信息
+        List<ProjectArchifile> projectArchifiles = projectArchifileMapper.selectProjectArchifilesByFileIds(fileIdList);
+        Long arid = projectArchifiles.get(0).getArchiveId();
+        ProjectArchive pa = projectArchiveMapper.selectProjectArchiveByArchiveId(arid);
+        // 删除文件和记录
+        for (ProjectArchifile projectArchifile : projectArchifiles) {
             deleteFile(projectArchifile.getFilePath(), projectArchifile.getFileName());
         }
+
+        // 计算新的文件数量
+        int delFileNum = fileIdList.size();
+        int actualNum = pa.getActualfileNum();
+        int newFileNum = Math.max(0, actualNum - delFileNum);
+        pa.setActualfileNum(newFileNum);
+        // 更新实际上传文件数量
+        projectArchiveMapper.updateProjectArchive(pa);
+
+        // 批量删除文件记录
         return projectArchifileMapper.deleteProjectArchifileByFileIds(Convert.toStrArray(fileIds));
     }
+
 
     /**
      * 删除文件信息信息

@@ -1,16 +1,16 @@
 package com.ruoyi.project.system.archifile.mapper;
 
-import java.util.List;
 import com.ruoyi.project.system.archifile.domain.ProjectArchifile;
+
+import java.util.List;
 
 /**
  * 文件信息Mapper接口
- * 
+ *
  * @author ruoyi
  * @date 2023-09-18
  */
-public interface ProjectArchifileMapper 
-{
+public interface ProjectArchifileMapper {
     /**
      * 查询文件信息
      * 
@@ -53,11 +53,13 @@ public interface ProjectArchifileMapper
 
     /**
      * 批量删除文件信息
-     * 
+     *
      * @param fileIds 需要删除的数据主键集合
      * @return 结果
      */
     public int deleteProjectArchifileByFileIds(String[] fileIds);
 
-    List<ProjectArchifile> selectProjectArchifileListByArid(String archiveId);
+    public List<ProjectArchifile> selectProjectArchifileListByArid(String archiveId);
+
+    public List<ProjectArchifile> selectProjectArchifilesByFileIds(List<Long> fileIdList);
 }

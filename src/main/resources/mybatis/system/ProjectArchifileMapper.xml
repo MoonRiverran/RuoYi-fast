@@ -21,11 +21,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectProjectArchifileList" parameterType="ProjectArchifile" resultMap="ProjectArchifileResult">
         <include refid="selectProjectArchifileVo"/>
-        <where>  
-            <if test="archiveId != null "> and archive_id = #{archiveId}</if>
-            <if test="fileName != null  and fileName != ''"> and file_name like concat('%', #{fileName}, '%')</if>
-            <if test="filePath != null  and filePath != ''"> and file_path = #{filePath}</if>
+        <where>
+            <if test="archiveId != null ">and archive_id = #{archiveId}</if>
+            <if test="fileName != null  and fileName != ''">and file_name like concat('%', #{fileName}, '%')</if>
+            <if test="filePath != null  and filePath != ''">and file_path = #{filePath}</if>
         </where>
+    </select>
+
+    <select id="selectProjectArchifilesByFileIds" parameterType="java.util.List" resultMap="ProjectArchifileResult">
+        <include refid="selectProjectArchifileVo"/>
+        WHERE file_id IN
+        <foreach collection="list" item="fileId" open="(" separator="," close=")">
+            #{fileId}
+        </foreach>
     </select>
 
     <select id="selectProjectArchifileListByArid" parameterType="Long" resultMap="ProjectArchifileResult">
@@ -36,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ORDER BY
         CAST(SUBSTRING(file_name, 1, 2) AS SIGNED)
     </select>
-    
+
     <select id="selectProjectArchifileByFileId" parameterType="Long" resultMap="ProjectArchifileResult">
         <include refid="selectProjectArchifileVo"/>
         where file_id = #{fileId}
@@ -88,5 +96,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{fileId}
         </foreach>
     </delete>
-
 </mapper>

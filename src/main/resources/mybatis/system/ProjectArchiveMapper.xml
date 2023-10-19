@@ -23,7 +23,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </sql>
 
     <select id="selectProjectArchiveList" parameterType="ProjectArchive" resultMap="ProjectArchiveResult">
-        select a.archive_id, a.archive_name, a.project_id, a.project_number, a.file_path, a.create_by, a.create_time, a.update_by, a.update_time from project_archive a
+        select a.archive_id, a.archive_name, a.project_id, a.project_number, a.file_path, a.upFile_num,
+        a.actualFile_num, a.create_by, a.create_time, a.update_by, a.update_time from project_archive a
         <where>
             <if test="deptId != null "> and a.project_id in(SELECT project_id from project_distri b where b.dept_id = #{deptId})</if>
             <if test="archiveName != null  and archiveName != ''"> and a.archive_name like concat('%', #{archiveName}, '%')</if>
@@ -102,5 +103,4 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{archiveId}
         </foreach>
     </delete>
-
 </mapper>

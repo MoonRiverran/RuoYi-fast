@@ -1,9 +1,9 @@
 package com.ruoyi.project.system.archifile.domain;
 
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.framework.aspectj.lang.annotation.Excel;
 import com.ruoyi.framework.web.domain.BaseEntity;
+import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
@@ -114,7 +114,6 @@ public class ProjectArchifile extends BaseEntity
             .append("updateBy", getUpdateBy())
             .append("updateTime", getUpdateTime())
             .append("file", getFile())
-            .append("files", getFiles())
             .append("projectNumber", getProjectNumber())
             .toString();
     }
