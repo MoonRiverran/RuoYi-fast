@@ -34,7 +34,7 @@ public class ProjectDistriServiceImpl implements IProjectDistriService
     @Autowired
     private ProjectArchiveMapper  projectArchiveMapper;
 
-    private String baseDirectory = "D:\\ruoyi\\project";
+    private String baseDirectory = "D:\\project";
 
 
     /**

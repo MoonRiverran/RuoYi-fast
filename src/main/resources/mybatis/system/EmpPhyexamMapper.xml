@@ -18,7 +18,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <sql id="selectEmpPhyexamVo">
-        select user_id, job_number, user_name, status, exam_time, create_by, create_time, update_by, update_time, remark from emp_phyexam
+        SELECT user_id,
+               job_number,
+               user_name,
+               status,
+               CASE status WHEN 0 THEN '否' WHEN 1 THEN '是' END AS statusname,
+               exam_time,
+               create_by,
+               create_time,
+               update_by,
+               update_time,
+               remark
+        FROM emp_phyexam
     </sql>
 
     <select id="selectEmpPhyexamList" parameterType="EmpPhyexam" resultMap="EmpPhyexamResult">
