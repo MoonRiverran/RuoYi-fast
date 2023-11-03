@@ -82,10 +82,8 @@
             dataType: "json",
             success: function (result) {
                 $.operate.successCallback(result);
-                $.modal.alertWarning("上传成功");
-                location.reload();
+                // parent.$.table.refresh('bootstrap-table2');
             }
-
         });
     }
 </script>
