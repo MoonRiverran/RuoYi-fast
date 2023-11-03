@@ -226,10 +226,11 @@ public class ProjectArchifileServiceImpl implements IProjectArchifileService {
         List<ProjectArchifile> projectArchifiles = projectArchifileMapper.selectProjectArchifilesByFileIds(fileIdList);
         Long arid = projectArchifiles.get(0).getArchiveId();
         ProjectArchive pa = projectArchiveMapper.selectProjectArchiveByArchiveId(arid);
-        // 删除文件和记录
-        for (ProjectArchifile projectArchifile : projectArchifiles) {
-            deleteFile(projectArchifile.getFilePath(), projectArchifile.getFileName());
-        }
+
+        // 删除文件和记录,改成手动删除文件夹内文件
+//        for (ProjectArchifile projectArchifile : projectArchifiles) {
+//            deleteFile(projectArchifile.getFilePath(), projectArchifile.getFileName());
+//        }
 
         // 计算新的文件数量
         int delFileNum = fileIdList.size();

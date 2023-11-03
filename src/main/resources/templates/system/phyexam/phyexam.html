@@ -94,7 +94,7 @@
                 },
                 {
                     field: 'statusname',
-                    title: '是否过期',
+                    title: '体检效用',
                     cellStyle: function (value, row) {
                         if (row.status == 1) {
                             return {
@@ -107,8 +107,12 @@
                 },
                     {
                         field: 'status',
-                        title: '是否过期',
+                        title: '体检效用',
                         visible: false
+                    },
+                    {
+                        field: 'diffDate',
+                        title: '有效期天数',
                     },
                     {
                         field: 'remark',

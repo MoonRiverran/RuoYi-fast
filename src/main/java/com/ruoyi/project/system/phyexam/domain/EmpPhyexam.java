@@ -39,6 +39,9 @@ public class EmpPhyexam extends BaseEntity
 
     private String statusname;
 
+    private String diffDate;
+
+
     /**
      * 体检时间
      */
@@ -97,6 +100,14 @@ public class EmpPhyexam extends BaseEntity
         this.statusname = statusname;
     }
 
+    public String getDiffDate() {
+        return diffDate;
+    }
+
+    public void setDiffDate(String diffDate) {
+        this.diffDate = diffDate;
+    }
+
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
@@ -105,6 +116,7 @@ public class EmpPhyexam extends BaseEntity
                 .append("userName", getUserName())
                 .append("status", getStatus())
                 .append("statusName", getStatusname())
+                .append("diffDate", getDiffDate())
                 .append("examTime", getExamTime())
             .append("createBy", getCreateBy())
             .append("createTime", getCreateTime())

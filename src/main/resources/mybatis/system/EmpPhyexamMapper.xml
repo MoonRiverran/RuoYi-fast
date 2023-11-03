@@ -22,7 +22,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                job_number,
                user_name,
                status,
-               CASE status WHEN 0 THEN '否' WHEN 1 THEN '是' END AS statusname,
+               CASE status WHEN 0 THEN '体检有效' WHEN 1 THEN '体检无效' END AS statusname,
+               CASE
+                   WHEN DATEDIFF(CURDATE(), exam_time) &gt;= 180 THEN '已过期'
+                   ELSE 180 - DATEDIFF(CURDATE(), exam_time)
+                   END                                                       AS diffDate,
                exam_time,
                create_by,
                create_time,

@@ -12,7 +12,11 @@
                         <ul>
                             <li>
                                 <label>文件名称：</label>
-                                <input type="text" name="fileName"/>
+                                <select name="fileName" th:with="type=${@dict.getType('file_type')}">
+                                    <option value="">所有</option>
+                                    <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                            th:value="${dict.dictValue}"></option>
+                                </select>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
@@ -46,10 +50,12 @@
     <script th:inline="javascript">
         var editFlag = [[${@permission.hasPermi('system:filemodel:edit')}]];
         var removeFlag = [[${@permission.hasPermi('system:filemodel:remove')}]];
+        var fileNameDatas = [[${@dict.getType('file_type')}]];
         var prefix = ctx + "system/filemodel";
 
         $(function() {
             var options = {
+                pageSize: 25,
                 url: prefix + "/list",
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
@@ -59,15 +65,18 @@
                 columns: [{
                     checkbox: true
                 },
-                {
+                    {
                     field: 'fileId',
                     title: '文件id',
                     visible: false
                 },
-                {
-                    field: 'fileName',
-                    title: '文件类别'
-                },
+                    {
+                        field: 'fileName',
+                        title: '文件名称',
+                        formatter: function (value, row, index) {
+                            return $.table.selectDictLabel(fileNameDatas, value);
+                        }
+                    },
                 {
                     field: 'showName',
                     title: '文件名称'

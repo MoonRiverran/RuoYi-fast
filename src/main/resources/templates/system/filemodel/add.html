@@ -10,7 +10,10 @@
             <div class="form-group">    
                 <label class="col-sm-3 control-label">文件类型：</label>
                 <div class="col-sm-8">
-                    <input name="fileName" class="form-control" type="text">
+                    <select class="form-control m-b" name="fileName" th:with="type=${@dict.getType('file_type')}">
+                        <option th:each="dict : ${type}" th:text="${dict.dictLabel}"
+                                th:value="${dict.dictValue}"></option>
+                    </select>
                 </div>
             </div>
             <div class="form-group">    

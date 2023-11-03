@@ -83,9 +83,9 @@
             success: function (result) {
                 $.operate.successCallback(result);
                 $.modal.alertWarning("上传成功");
-                // 刷新表格（使用jQuery DataTables）
-                $('#bootstrap-table2').DataTable().ajax.reload();
+                location.reload();
             }
+
         });
     }
 </script>
