@@ -62,18 +62,19 @@
                 createUrl: prefix + "/add",
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
-				detailUrl: prefix + "/detail/{id}",
+                detailUrl: prefix + "/detail/{id}",
                 modalName: "公告",
+                pageSize: 100,
                 columns: [{
-		            checkbox: true
-		        },
-				{
-					field : 'noticeId', 
-					title : '序号' 
-				},
-				{
-					field : 'noticeTitle', 
-					title : '公告标题' 
+                    checkbox: true
+                },
+                    {
+                        field: 'noticeId',
+                        title: '序号'
+                    },
+                    {
+                        field: 'noticeTitle',
+                        title: '公告标题'
 				},
 				{
 		            field: 'noticeType',

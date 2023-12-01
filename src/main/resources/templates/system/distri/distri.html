@@ -103,7 +103,8 @@
             exportUrl: prefix + "/export",
             modalName: "项目下发",
             singleSelect: true,
-            onCheck : zOnClick,
+            pageSize: 100,
+            onCheck: zOnClick,
             columns: [{
                 checkbox: true
             },
@@ -238,6 +239,7 @@
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
                 modalName: "项目归档",
+                pageSize: 100,
                 columns: [{
                     checkbox: true
                 },

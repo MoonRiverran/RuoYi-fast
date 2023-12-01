@@ -28,19 +28,21 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
     
     <select id="selectNoticeList" parameterType="Notice" resultMap="NoticeResult">
-        <include refid="selectNoticeVo"/>
+        select a.notice_id, a.notice_title, a.notice_type, a.notice_content, a.status, b.user_name as create_by,
+        a.create_time, a.update_by, a.update_time, a.remark from sys_notice a
+        LEFT JOIN sys_user b on a.create_by = b.create_by
         <where>
 			<if test="noticeTitle != null and noticeTitle != ''">
-				AND notice_title like concat('%', #{noticeTitle}, '%')
-			</if>
+                AND a.notice_title like concat('%', #{noticeTitle}, '%')
+            </if>
 			<if test="noticeType != null and noticeType != ''">
-				AND notice_type = #{noticeType}
-			</if>
+                AND a.notice_type = #{noticeType}
+            </if>
 			<if test="createBy != null and createBy != ''">
-				AND create_by like concat('%', #{createBy}, '%')
-			</if>
+                AND a.create_by like concat('%', #{createBy}, '%')
+            </if>
 		</where>
-        ORDER BY create_time desc
+        ORDER BY a.create_time desc
     </select>
     
     <insert id="insertNotice" parameterType="Notice">
